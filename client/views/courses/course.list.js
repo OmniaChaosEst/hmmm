@@ -94,7 +94,8 @@ Template.course.is_takingplace = function() {
 // status (proposal / takingplace) not yet implemented, until then: using event count instead
 
 	Meteor.subscribe('events') //ugly here! ugly, ugly!
-	return Events.find({course_id: this._id}).count() > 0 ? true : false
+	//return Events.find({course_id: this._id}).count() > 0 ? true : false ---------------------------
+	return this.events.find().count() > ? true : false
 
 }
 
@@ -125,13 +126,15 @@ Template.course.categorynames = function() {
 Template.course.course_eventlist = function() {
 	Meteor.subscribe('events') //ugly here! ugly, ugly!
 
-	return Events.find({course_id: this._id}, {limit: 1});
+	//return Events.find({course_id: this._id}, {limit: 1});------------------------------------
+	return course.events.find({limit: 1})
+
 }
 
 
 Template.course.course_eventlist_hasmore = function() {
 	Meteor.subscribe('events') //ugly here! ugly, ugly!
 
-	var eventcount = Events.find({course_id: this._id}).count(); 
+	var eventcount = Events.find({course_id: this._id}).count();
 	return eventcount > 1 ? (eventcount-1)  : false
 }

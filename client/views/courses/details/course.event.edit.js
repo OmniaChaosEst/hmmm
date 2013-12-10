@@ -3,6 +3,14 @@
 
 Template.course_event_edit.events({
 	'click input.saveEditEvent': function () {
+		// Meteor.call()
+				//courseId = Meteor.call("save_event", courseId, changes, function(err, courseId) {
+				courseId = Meteor.call("save_event", '', {}, function(err, courseId) { /*
+				Session.set("isEditing", false);
+				if (err) alert("Saving the course went terribly wrong: "+err)
+				if (isNew) Router.go('showCourse', {_id: courseId})
+			*/})
+		/*
 		if(Meteor.userId()){
 			var dateParts =  $('#edit_event_startdate').val().split(".");
 			if($('#edit_event_starttime').val()!=""){
@@ -23,10 +31,10 @@ Template.course_event_edit.events({
 				endtime: $('#edit_event_endtime').val(),
 			}
 
-			if (this.event._id) {		
-	
+			if (this.event._id) {
+
 				console.log("1")
-				Events.update(this.event._id, { $set: editevent })		
+				Events.update(this.event._id, { $set: editevent })
 				console.log("2")
 			} else {
 
@@ -40,6 +48,7 @@ Template.course_event_edit.events({
 		}else{
 			alert("Security robot say: please sign in!");
 		}
+*/
 	},
 
 	'click input.cancelEditEvent': function() {
@@ -48,11 +57,11 @@ Template.course_event_edit.events({
 });
 
 Template.course_event_edit.possible_mentors = function() {
-	
+
 	var possible_mentors=[];
 	//var course = this.course
 		if(this.course.roles.mentor){
-			
+
 			var eventobj=this.event;
 				_.each(this.course.roles.mentor.subscribed, function (userid) {
 				var user = Meteor.users.findOne({_id: userid})
@@ -72,20 +81,20 @@ Template.course_event_edit.possible_mentors = function() {
 				//possible_mentors.push(user);
 				possible_mentors.push({"username": user.username, "id":user._id, "checked":checked})
 			});
-				
+
 
 	}
-	
+
 	return possible_mentors;
 }
 
 
 Template.course_event_edit.possible_hosts = function() {
-	
+
 	var possible_hosts=[];
 	//var course = this.course
 		if(this.course.roles.host){
-		
+
 			var eventobj=this.event;
 				_.each(this.course.roles.host.subscribed, function (userid) {
 				var user = Meteor.users.findOne({_id: userid})
@@ -106,6 +115,6 @@ Template.course_event_edit.possible_hosts = function() {
 			});
 
 	}
-	
+
 	return possible_hosts;
 }
